@@ -1,0 +1,58 @@
+{
+  "deploy": {
+    "stack_name": "proto-kiosk-handover",
+    "resource_prefix": "proto-kiosk",
+    "region": "us-west-2",
+    "removal_policy": "retain",
+    "log_retention_days": 30,
+    "image_bucket_versioning": true,
+    "lambda_memory_mb": 1024,
+    "processor_timeout_s": 120,
+    "api_throttle_rate": 5,
+    "api_throttle_burst": 10,
+    "cors_extra_origins": [],
+    "tags": {
+      "Project": "photo-kiosk",
+      "Purpose": "prototype",
+      "Teardown": "after-test"
+    }
+  },
+  "frontend": {
+    "enabled": true,
+    "geo_allowlist": []
+  },
+  "session": {
+    "kiosk_id": "kiosk-demo-01",
+    "notice_version": "2026-10-v1",
+    "retention_seconds": 300,
+    "share_link_ttl_seconds": 120,
+    "ttl_grace_seconds": 3600,
+    "max_upload_bytes": 3000000,
+    "max_side": 1024,
+    "min_side": 64,
+    "max_aspect": 2.5,
+    "max_pixels": 16000000,
+    "operator_contact": "Ask the kiosk operator, or write to privacy@example.com"
+  },
+  "image_model": {
+    "provider": "bedrock",
+    "model_id": "stability.sd3-5-large-v1:0",
+    "family": "sd35-image-to-image",
+    "strength": 0.6,
+    "allow_cross_region_inference": false
+  },
+  "moderation": {
+    "provider": "guardrails",
+    "filter_strength": "HIGH",
+    "allow_unmoderated": false
+  },
+  "logging": {
+    "data_identifiers": [
+      "Address",
+      "EmailAddress",
+      "IpAddress",
+      "LatLong",
+      "Name"
+    ]
+  }
+}
