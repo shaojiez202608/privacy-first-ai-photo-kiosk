@@ -22,11 +22,16 @@ from .settings import Settings
 
 
 def aws_service() -> KioskService:
+    import logging
+
     import boto3
     from botocore.config import Config
 
     from . import aws
 
+    # Only audit events belong in the audit log group; library chatter stays out.
+    for name in ("botocore", "boto3", "urllib3"):
+        logging.getLogger(name).setLevel(logging.WARNING)
     settings = Settings.from_env()
     env = os.environ
     cfg = Config(retries={"mode": "standard", "max_attempts": 3}, connect_timeout=5, read_timeout=60,
