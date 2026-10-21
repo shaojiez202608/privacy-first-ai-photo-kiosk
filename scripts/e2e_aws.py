@@ -49,9 +49,9 @@ def http(method: str, url: str, headers: dict | None = None, body: dict | bytes 
         h["Content-Type"] = "application/json"
     if not url.startswith("https://"):
         raise ValueError("only https URLs")
-    req = urllib.request.Request(url, data=data, method=method, headers=h)  # noqa: S310 - https only
+    req = urllib.request.Request(url, data=data, method=method, headers=h)  # noqa: S310  # nosec B310 - scheme checked above: https only
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 - https URLs from the stack
+        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310  # nosec B310 - scheme checked above: https only
             return r.status, r.read(), dict(r.headers)
     except urllib.error.HTTPError as e:
         return e.code, e.read(), dict(e.headers)
