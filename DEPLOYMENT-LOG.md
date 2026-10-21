@@ -44,6 +44,30 @@ KMS keys after cycle 1: both `PendingDeletion`, deletion dates 2026-10-28 02:31 
 Conclusion cycle 1: 已清理，无残留 (after the manual deletion of one log group, recorded above;
 KMS keys are in PendingDeletion).
 
-## Cycle 2 — final commit
+## Cycle 2 — 2026-10-21, final commit `1e91893` (clean tree)
 
-See the section added after the final run below.
+Same parameter file as cycle 1. The verification was interrupted twice by temporary service
+errors of the assistant API (not AWS); each time the existing stack was confirmed as this
+deployment (created 02:55 UTC; `cdk diff` against `1e91893`: "There were no differences") and the
+run continued.
+
+| Step | Time (UTC) | Command | Result |
+|---|---|---|---|
+| 2.1 preflight + deploy | 02:53–03:00 | `scripts/deploy.sh config/params.json` (runs preflight) | CREATE_COMPLETE |
+| 2.2 e2e | 03:00–03:06 | `scripts/e2e_aws.py --params config/params.json` | 48 passed, 0 failed, 3 info |
+| 2.3 D6 cloud check | between 2.2 and 2.4 | `list-stack-resources` + region scan; tagging API in us-west-2 | 60 resources, none outside us-east-1; nothing in us-west-2 |
+| 2.4 update to Bedrock profile | 03:25–03:28 | `scripts/deploy.sh config/params.cris.json` | UPDATE_COMPLETE (property changes only) |
+| 2.5 model check | 03:28 | `scripts/e2e_aws.py --params config/params.cris.json --only-d1` | 13 passed; CloudTrail `inferenceRegion=us-east-1` |
+| 2.6 destroy | 03:42–03:46 | `CONFIRM_STACK=proto-kiosk-sandbox CONFIRM_DATA=yes scripts/cleanup.sh config/params.cris.json` | stack deleted; auto-delete handler log group deleted; this project's remaining bootstrap asset objects deleted (all versions); CDK shared packages kept |
+| 2.7 residual check | 03:46 | `scripts/verify_cleanup.sh --params config/params.cris.json --regions us-east-1 us-west-2` | **Cleaned up: nothing of this project remains**; `/proto-kiosk/cdk-handlers` no longer left behind |
+
+KMS keys (all `PendingDeletion`, waiting period 7 days):
+
+| Key | Cycle | Deletion date (UTC) |
+|---|---|---|
+| 3abf98f5-… (data) | 1 | 2026-10-28 02:34 |
+| 63c7faa1-… (receipts) | 1 | 2026-10-28 02:31 |
+| e3eed96d-… | 2 | 2026-10-28 03:44 |
+| 87a37061-… | 2 | 2026-10-28 03:42 |
+
+Final conclusion: **已清理，无残留**（KMS 密钥处于计划删除状态，见上表）。

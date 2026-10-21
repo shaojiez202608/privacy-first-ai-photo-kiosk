@@ -43,7 +43,7 @@ Not legal advice. State at tag `v0.1.0`.
 | # | Item | Status | Evidence |
 |---|---|---|---|
 | E1 | Cleanup script with confirmations; residual check that fails on leftovers; README lists what is not removed automatically | met | `scripts/cleanup.sh`, `scripts/verify_cleanup.py`, README "Clean up" |
-| E2 | All used regions checked; clear conclusion | met | DEPLOYMENT-LOG (us-east-1 only deployed region); cycle 1 found and fixed one leftover log group |
+| E2 | All used regions checked; clear conclusion | met | DEPLOYMENT-LOG: us-east-1 (deployed) and us-west-2 checked; cycle 1 found and fixed one leftover log group; cycle 2 clean |
 
 ## F. Documentation and commits
 
