@@ -14,8 +14,9 @@ sample-data/images/
 out/
 .DS_Store
 *.pem
-# Live parameter file (copy of config/params.example.json, created by `make init`)
-config/params.json
+# Live parameter files (copies of config/*.example.json, e.g. created by `make init`)
+config/*.json
+!config/*.example.json
 cdk.context.json
 .env*
 !.env.example
