@@ -1,0 +1,8 @@
+# Changes to CI, scanning configuration and AI assistant configuration need the code owner's review.
+.github/            @shaojiez202608
+.gitleaks.toml      @shaojiez202608
+Makefile            @shaojiez202608
+AGENTS.md           @shaojiez202608
+CLAUDE.md           @shaojiez202608
+scripts/secret_canary.sh @shaojiez202608
+infra/              @shaojiez202608
