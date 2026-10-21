@@ -44,11 +44,11 @@ KMS keys after cycle 1: both `PendingDeletion`, deletion dates 2026-10-28 02:31 
 Conclusion cycle 1: 已清理，无残留 (after the manual deletion of one log group, recorded above;
 KMS keys are in PendingDeletion).
 
-## Cycle 2 — 2026-10-21, final commit `1e91893` (clean tree)
+## Cycle 2 — 2026-10-21, final commit `4918f58` (clean tree)
 
 Same parameter file as cycle 1. The verification was interrupted twice by temporary service
 errors of the assistant API (not AWS); each time the existing stack was confirmed as this
-deployment (created 02:55 UTC; `cdk diff` against `1e91893`: "There were no differences") and the
+deployment (created 02:55 UTC; `cdk diff` against `4918f58`: "There were no differences") and the
 run continued.
 
 | Step | Time (UTC) | Command | Result |

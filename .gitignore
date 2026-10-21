@@ -23,3 +23,6 @@ cdk.context.json
 *.local.json
 # Asset manifests of past deployments (scripts/deploy.sh), used by cleanup
 .deploy/
+
+# Local list of names that must never appear in the repository (see tests/test_docs.py)
+.forbidden-terms

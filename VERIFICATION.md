@@ -2,7 +2,7 @@
 
 What was actually run, with results. Not legal advice. Account ids masked.
 
-**Final verification commit: `1e91893`** (clean tree). Later commits change documentation only.
+**Final verification commit: `4918f58`** (clean tree). Later commits change documentation only.
 Date: 2026-10-21. Machine: macOS arm64, Python 3.13 venv (uv 0.10.10), Node 24, CDK CLI 2.x (npx).
 
 ## Local (no AWS)
@@ -34,7 +34,7 @@ Parameters: `config/params.example.json` with `retention_seconds=180`, `share_li
 model variant: the same plus `us.stability.stable-image-control-structure-v1:0` with
 `allow_cross_region_inference=true` (equivalent to `params.cris-bedrock.example.json`).
 
-### Cycle 2 (final, commit `1e91893`)
+### Cycle 2 (final, commit `4918f58`)
 | Scenario | Result |
 |---|---|
 | Access control: no token 401, wrong token 403, anonymous bucket read 403 | pass |

@@ -39,6 +39,17 @@ REGULATIONS = re.compile(r"\b(GDPR|CCPA|CPRA|PIPL|PIPEDA|HIPAA|APPI|LGPD|PDPA|PI
 FORBIDDEN = re.compile(r"/Users/|163\.com|"
                        r"employee account|员工账号|负责人|客户要求|补充材料|档位", re.I)
 ACCOUNT = re.compile(r"(?<![0-9A-Za-z])\d{12}(?![0-9A-Za-z])")
+# Project-specific names that must never appear are kept out of the repository on purpose: listing them here
+# would publish them. Put one regular expression per line in the git-ignored file .forbidden-terms to check them.
+LOCAL_TERMS_FILE = ROOT / ".forbidden-terms"
+
+
+def _local_terms() -> re.Pattern | None:
+    if not LOCAL_TERMS_FILE.is_file():
+        return None
+    terms = [t.strip() for t in LOCAL_TERMS_FILE.read_text(encoding="utf-8").splitlines()]
+    terms = [t for t in terms if t and not t.startswith("#")]
+    return re.compile("|".join(f"(?:{t})" for t in terms), re.I) if terms else None
 
 
 def test_markdown_files_found():
@@ -91,6 +102,20 @@ def test_no_forbidden_strings_or_account_ids(path):
         assert not m, f"forbidden string {m.group(0)!r}"
     for n in ACCOUNT.findall(text):
         assert n == "111122223333", f"12-digit number {n}"
+
+
+def test_local_forbidden_terms_are_ignored_by_git():
+    out = subprocess.run(["git", "check-ignore", "-q", str(LOCAL_TERMS_FILE)], cwd=ROOT)
+    assert out.returncode == 0, ".forbidden-terms must stay git-ignored"
+
+
+@pytest.mark.parametrize("path", TEXT, ids=lambda p: str(p.relative_to(ROOT)))
+def test_no_local_forbidden_terms(path):
+    pattern = _local_terms()
+    if pattern is None:
+        pytest.skip("no local .forbidden-terms file")
+    m = pattern.search(path.read_text(encoding="utf-8", errors="replace"))
+    assert not m, f"forbidden term at offset {m.start()}"
 
 
 def test_required_files():
