@@ -1,0 +1,62 @@
+{
+  "generator": "scripts/gen_samples.py",
+  "synthetic": true,
+  "contains_people": false,
+  "images": [
+    {
+      "file": "landscape.png",
+      "tests": "normal flow (D1)",
+      "expected": "ready"
+    },
+    {
+      "file": "blocks.png",
+      "tests": "normal flow with text (D1)",
+      "expected": "ready"
+    },
+    {
+      "file": "landscape-gps.jpg",
+      "tests": "EXIF/GPS metadata is stripped",
+      "expected": "ready"
+    },
+    {
+      "file": "unsafe-marker.png",
+      "tests": "input content block (D5, mock)",
+      "expected": "rejected:input_blocked"
+    },
+    {
+      "file": "instruction.png",
+      "tests": "embedded instruction (D5, mock)",
+      "expected": "rejected:input_blocked"
+    },
+    {
+      "file": "threat-text.png",
+      "tests": "written threat for the real image filter (D5, cloud)",
+      "expected": "ready with mock; expected input_blocked with Guardrails (measured, see VERIFICATION)"
+    },
+    {
+      "file": "tiny.png",
+      "tests": "below min_side",
+      "expected": "422:image_too_small"
+    },
+    {
+      "file": "panorama.png",
+      "tests": "aspect ratio above max_aspect",
+      "expected": "422:aspect_ratio_out_of_range"
+    },
+    {
+      "file": "large-noise.png",
+      "tests": "above max_upload_bytes",
+      "expected": "413/422:image_too_large"
+    },
+    {
+      "file": "not-an-image.png",
+      "tests": "undecodable bytes",
+      "expected": "422:undecodable_image"
+    },
+    {
+      "file": "animated.gif",
+      "tests": "format outside PNG/JPEG",
+      "expected": "422:unsupported_format"
+    }
+  ]
+}

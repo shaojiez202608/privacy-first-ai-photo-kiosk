@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Photo kiosk (prototype)</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>AI photo kiosk</h1>
+    <p class="banner">Prototype for demonstration. Uses synthetic sample images only; no camera is used.</p>
+  </header>
+  <main>
+    <section id="setup" hidden>
+      <h2>Kiosk setup (operator)</h2>
+      <p>Enter the kiosk device token. It is kept in this browser tab only.</p>
+      <label>Kiosk token <input id="token" type="password" autocomplete="off"></label>
+      <button id="save-token">Start kiosk</button>
+    </section>
+
+    <section id="notice" hidden>
+      <h2>Before we start</h2>
+      <dl id="notice-sections"></dl>
+      <p class="disclaimer" id="notice-disclaimer"></p>
+      <div class="actions">
+        <button id="accept">I agree</button>
+        <button id="decline" class="secondary">No, thanks</button>
+      </div>
+    </section>
+
+    <section id="declined" hidden>
+      <h2>No photo was taken</h2>
+      <p>Nothing was stored. The kiosk is ready for the next guest.</p>
+      <button class="restart">Start over</button>
+    </section>
+
+    <section id="capture" hidden>
+      <h2>Choose a sample picture and a style</h2>
+      <div id="samples" class="samples"></div>
+      <label>Style <select id="style"></select></label>
+      <div class="actions">
+        <button id="process">Create my picture</button>
+        <button class="delete secondary">Delete my session</button>
+      </div>
+      <p class="hint">Session ends at <span class="expires"></span>.</p>
+    </section>
+
+    <section id="working" hidden>
+      <h2>Working…</h2>
+      <p id="working-status">Processing your picture.</p>
+    </section>
+
+    <section id="result" hidden>
+      <h2>Your picture</h2>
+      <div class="result">
+        <img id="result-img" alt="Stylized result">
+        <figure>
+          <img id="qr" alt="QR code for the download link">
+          <figcaption>Scan to download. Link valid until <span id="link-expiry"></span>.</figcaption>
+        </figure>
+      </div>
+      <div class="actions">
+        <button class="delete">Delete everything now</button>
+      </div>
+      <p class="hint">Session ends at <span class="expires"></span>; all images are deleted then.</p>
+    </section>
+
+    <section id="rejected" hidden>
+      <h2>We could not use this picture</h2>
+      <p id="rejected-reason"></p>
+      <div class="actions">
+        <button class="delete">Delete my session</button>
+      </div>
+    </section>
+
+    <section id="deleted" hidden>
+      <h2>Deleted</h2>
+      <p>All images and the session record were deleted. Your deletion receipt:</p>
+      <pre id="receipt"></pre>
+      <button class="restart">Start over</button>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,22 @@
+body { font-family: system-ui, sans-serif; margin: 0; background: #f6f7f9; color: #1d2733; }
+header { background: #23395b; color: #fff; padding: 1rem 2rem; }
+header h1 { margin: 0; font-size: 1.6rem; }
+.banner { margin: .3rem 0 0; font-size: .9rem; opacity: .85; }
+main { max-width: 960px; margin: 1.5rem auto; padding: 0 1rem; }
+section { background: #fff; border-radius: 8px; padding: 1.2rem 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+dl dt { font-weight: 600; margin-top: .6rem; }
+dl dd { margin: .2rem 0 0; }
+.disclaimer { font-size: .85rem; color: #5b6573; border-top: 1px solid #e3e6ea; padding-top: .6rem; }
+.actions { display: flex; gap: .8rem; margin-top: 1rem; }
+button { font-size: 1rem; padding: .6rem 1.2rem; border-radius: 6px; border: 0; background: #2f6fde; color: #fff; cursor: pointer; }
+button.secondary { background: #e3e6ea; color: #1d2733; }
+.samples { display: flex; flex-wrap: wrap; gap: .8rem; margin: .8rem 0; }
+.samples canvas { width: 180px; height: 180px; border: 3px solid transparent; border-radius: 6px; cursor: pointer; }
+.samples canvas.selected { border-color: #2f6fde; }
+.samples figcaption { font-size: .8rem; text-align: center; max-width: 180px; }
+.result { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
+#result-img { max-width: 420px; width: 100%; border-radius: 6px; }
+#qr { width: 200px; height: 200px; image-rendering: pixelated; }
+pre { background: #f1f3f5; padding: .8rem; overflow-x: auto; font-size: .8rem; }
+.hint { font-size: .85rem; color: #5b6573; }
+.error { color: #b3261e; font-weight: 600; }
