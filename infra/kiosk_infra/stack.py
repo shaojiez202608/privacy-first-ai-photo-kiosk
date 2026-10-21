@@ -334,11 +334,14 @@ class KioskStack(Stack):
             throttling_rate_limit=d["api_throttle_rate"], throttling_burst_limit=d["api_throttle_burst"])
 
         if site is not None and dist is not None:
-            s3d.BucketDeployment(
+            deployment = s3d.BucketDeployment(
                 self, "SiteDeployment", destination_bucket=site, log_group=handler_logs, memory_limit=256,
                 sources=[s3d.Source.asset(web_dir or str(ROOT / "web")),
                          s3d.Source.json_data("config.json", {"apiUrl": api.api_endpoint, "region": Aws.REGION,
                                                               "kioskId": sess["kiosk_id"], "localMode": False})])
+            # Delete the handler (which logs on its own delete event) before its log group, so the
+            # group is not written again after CloudFormation removed it.
+            deployment.node.add_dependency(handler_logs)
 
         for k, v in {"ApiUrl": api.api_endpoint, "KioskUrl": site_url or "frontend disabled",
                      "ImageBucketName": images.bucket_name, "SessionTableName": table.table_name,
