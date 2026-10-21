@@ -13,3 +13,6 @@
 - [ ] Deployed and ran `make verify` (say where and when), or explain why not
 
 ## Not tested
+
+---
+This document does not constitute legal advice.
