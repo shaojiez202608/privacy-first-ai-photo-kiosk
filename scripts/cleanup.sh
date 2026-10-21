@@ -43,13 +43,13 @@ done
 LOWER=$(echo "$STACK" | tr 'A-Z' 'a-z')
 BUCKETS=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, '$LOWER')].Name" --output text)
 TABLES=$(aws dynamodb list-tables --region "$REGION" --query "TableNames[?starts_with(@, '$STACK')]" --output text)
-GROUPS=$(aws logs describe-log-groups --region "$REGION" --log-group-name-prefix "/${PREFIX}/" --query 'logGroups[].logGroupName' --output text)
+LOGGROUPS=$(aws logs describe-log-groups --region "$REGION" --log-group-name-prefix "/${PREFIX}/" --query 'logGroups[].logGroupName' --output text)
 KEYS=$(uv run python -c 'import sys; sys.path.insert(0, "scripts"); from verify_cleanup import project_asset_keys; print(" ".join(project_asset_keys(sys.argv[1])))' "$STACK")
-if [ -n "$BUCKETS$TABLES$GROUPS$KEYS" ]; then
+if [ -n "$BUCKETS$TABLES$LOGGROUPS$KEYS" ]; then
   echo "== data left behind (removal_policy=$REMOVAL) and bootstrap objects"
   [ -n "$BUCKETS" ] && echo "buckets: $BUCKETS" | mask
   [ -n "$TABLES" ] && echo "tables: $TABLES"
-  [ -n "$GROUPS" ] && echo "log groups: $GROUPS"
+  [ -n "$LOGGROUPS" ] && echo "log groups: $LOGGROUPS"
   [ -n "$KEYS" ] && echo "this project's objects in the CDK bootstrap assets bucket: $(echo $KEYS | wc -w) (CDK generic provider packages are kept)"
   if ask "Delete these (all object versions included)? Type yes:" "yes" "${CONFIRM_DATA:-}"; then
     for b in $BUCKETS; do
@@ -60,7 +60,7 @@ PY
       aws s3api delete-bucket --bucket "$b" --region "$REGION" && echo "deleted bucket" || warn "could not delete a bucket"
     done
     for t in $TABLES; do aws dynamodb delete-table --region "$REGION" --table-name "$t" >/dev/null && echo "deleted table $t" || warn "could not delete $t"; done
-    for g in $GROUPS; do aws logs delete-log-group --region "$REGION" --log-group-name "$g" && echo "deleted $g" || warn "could not delete $g"; done
+    for g in $LOGGROUPS; do aws logs delete-log-group --region "$REGION" --log-group-name "$g" && echo "deleted $g" || warn "could not delete $g"; done
     ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
     ASSETS="cdk-hnb659fds-assets-${ACCOUNT}-${REGION}"
     for k in $KEYS; do  # the bootstrap bucket is versioned: every version and delete marker of exactly this key

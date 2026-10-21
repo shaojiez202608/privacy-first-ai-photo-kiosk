@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import timezone
 from pathlib import Path
 
 import boto3
@@ -169,7 +170,8 @@ def exists(sess, arn: str) -> bool | str:
         if svc == "kms":
             md = sess.client("kms").describe_key(KeyId=arn)["KeyMetadata"]
             if md["KeyState"] == "PendingDeletion":
-                return f"PendingDeletion until {md['DeletionDate']:%Y-%m-%d %H:%M} UTC"
+                when = md["DeletionDate"].astimezone(timezone.utc)
+                return f"PendingDeletion until {when:%Y-%m-%d %H:%M} UTC"
             return True
         if svc == "lambda":
             sess.client("lambda").get_function(FunctionName=arn)
