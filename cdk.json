@@ -1,0 +1,9 @@
+{
+  "app": ".venv/bin/python infra/app.py",
+  "output": "cdk.out",
+  "context": {
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:enablePartitionLiterals": true,
+    "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true
+  }
+}

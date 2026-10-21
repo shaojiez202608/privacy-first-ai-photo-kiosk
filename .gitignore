@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+cdk.out/
+cdk.out-*/
+build/
+node_modules/
+*.zip
+# Generated synthetic images (regenerate with `make samples`)
+sample-data/images/
+# Local run outputs (reports, stack outputs)
+out/
+.DS_Store
+*.pem
+# Live parameter file (copy of config/params.example.json, created by `make init`)
+config/params.json
+cdk.context.json
+.env*
+!.env.example
+*.local.json
+# Asset manifests of past deployments (scripts/deploy.sh), used by cleanup
+.deploy/

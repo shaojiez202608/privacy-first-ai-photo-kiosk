@@ -1,0 +1,50 @@
+[project]
+name = "privacy-first-ai-photo-kiosk"
+version = "0.1.0"
+description = "Privacy-first AI photo kiosk reference architecture: consent, temporary processing, verifiable deletion, region pinning (prototype)"
+readme = "README.md"
+license = "MIT-0"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv]
+# Supply-chain cooldown: do not resolve package versions published in the last 7 days.
+exclude-newer = "7 days"
+package = false
+default-groups = ["runtime", "dev", "infra"]
+
+[dependency-groups]
+# Runtime dependencies are also listed in src/requirements.txt for the arm64 Lambda bundle.
+runtime = [
+  "boto3>=1.40",
+  "pillow>=11",
+  "segno>=1.6",
+]
+dev = [
+  "pytest>=8",
+  "ruff>=0.6",
+  "moto[s3,dynamodb,kms,stepfunctions,logs]>=5.1",
+]
+infra = [
+  "aws-cdk-lib>=2.230",
+  "constructs>=10.4",
+  "cdk-nag>=3.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "infra", "scripts", "."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+extend-exclude = ["cdk.out", "build"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = ["S101", "E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S"]
+"scripts/**" = ["S311", "S603", "S607"]

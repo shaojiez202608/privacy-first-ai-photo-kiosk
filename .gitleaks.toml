@@ -1,0 +1,10 @@
+# gitleaks configuration: the default rule set, no exceptions.
+# Any future exception must name one rule id and one path (or one commit) and give the reason, e.g.
+#   [[allowlists]]
+#   description = "<WHY THIS IS NOT A SECRET>"
+#   targetRules = ["<RULE_ID>"]
+#   paths = ['''^<EXACT/PATH>$''']
+title = "privacy-first-ai-photo-kiosk"
+
+[extend]
+useDefault = true
