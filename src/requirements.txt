@@ -1,0 +1,4 @@
+# Runtime dependencies of the Lambda bundle (linux/arm64, CPython 3.14). Keep in step with pyproject.toml.
+boto3>=1.40
+pillow>=11
+segno>=1.6
