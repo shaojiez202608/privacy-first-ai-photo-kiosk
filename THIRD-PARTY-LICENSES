@@ -1,0 +1,44 @@
+Third-party components
+======================
+
+This project does not relicense any third-party component. Each component keeps its own license.
+Licenses below were read from the package metadata (License-Expression / License fields and the
+bundled LICENSE files) of the versions pinned in uv.lock on 2026-10-21.
+
+1. Distributed with this repository
+-----------------------------------
+None. The repository contains only original source code, configuration and documentation. Sample
+images are generated locally by scripts/gen_samples.py and are not committed.
+
+2. Downloaded at build or deployment time
+-----------------------------------------
+2a. Packed into the Lambda deployment bundle by scripts/build_bundle.sh (so they are deployed to
+    your account as part of the function code):
+
+| Component        | Version     | License                                  |
+|------------------|-------------|------------------------------------------|
+| boto3            | 1.43.113    | Apache-2.0                               |
+| botocore         | 1.43.113    | Apache-2.0                               |
+| s3transfer       | 0.19.2      | Apache-2.0                               |
+| jmespath         | 1.1.0       | MIT                                      |
+| python-dateutil  | 2.9.0.post0 | Dual: Apache-2.0 and BSD-3-Clause        |
+| six              | 1.17.0      | MIT                                      |
+| urllib3          | 2.8.0       | MIT                                      |
+| pillow           | 13.0.0      | MIT-CMU                                  |
+| segno            | 1.6.6       | BSD-3-Clause                             |
+
+2b. Development, test and infrastructure tooling (not deployed as function code):
+
+| Component        | Version     | License       |
+|------------------|-------------|---------------|
+| aws-cdk-lib      | 2.273.0     | Apache-2.0    |
+| constructs       | 10.8.1      | Apache-2.0    |
+| cdk-nag          | 3.0.2       | Apache-2.0    |
+| moto             | 5.2.4       | Apache-2.0    |
+| pytest           | 9.1.1       | MIT           |
+| ruff             | 0.17.0      | MIT           |
+| AWS CDK CLI (npx aws-cdk@2) | latest 2.x at run time | Apache-2.0 |
+
+The CDK BucketDeployment construct also deploys a CDK-provided AWS CLI Lambda layer and handler
+(Apache-2.0, part of aws-cdk-lib).
+Transitive dependencies of the tools above are listed in uv.lock with their sources.

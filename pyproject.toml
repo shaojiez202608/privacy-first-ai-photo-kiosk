@@ -10,6 +10,10 @@ dependencies = []
 [tool.uv]
 # Supply-chain cooldown: do not resolve package versions published in the last 7 days.
 exclude-newer = "7 days"
+# Security exceptions to the cooldown (osv-scanner, 2026-10-21): pillow 13.0.0 fixes High/Critical
+# advisories in 12.3.0; certifi 2026.10.19 fixes a Critical advisory in 2026.7.22. Remove once the
+# cooldown has passed.
+exclude-newer-package = { pillow = "2026-10-21T00:00:00Z", certifi = "2026-10-21T00:00:00Z" }
 package = false
 default-groups = ["runtime", "dev", "infra"]
 
@@ -17,7 +21,7 @@ default-groups = ["runtime", "dev", "infra"]
 # Runtime dependencies are also listed in src/requirements.txt for the arm64 Lambda bundle.
 runtime = [
   "boto3>=1.40",
-  "pillow>=11",
+  "pillow>=13",
   "segno>=1.6",
 ]
 dev = [

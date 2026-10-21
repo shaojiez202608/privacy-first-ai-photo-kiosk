@@ -1,4 +1,5 @@
-# Runtime dependencies of the Lambda bundle (linux/arm64, CPython 3.14). Keep in step with pyproject.toml.
+# Runtime dependencies (documentation of the runtime group). The Lambda bundle is built from uv.lock
+# by scripts/build_bundle.sh, not from this file.
 boto3>=1.40
-pillow>=11
+pillow>=13
 segno>=1.6
